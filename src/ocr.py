@@ -28,14 +28,6 @@ def get_output_path(input_path: str, input_folder: str) -> str:
     subdir = os.path.relpath(folder_name, common_path)
     final_path = os.path.join(root_path, "output", subdir, file_name)
     os.makedirs(os.path.join(root_path, "output", subdir), exist_ok=True)
-    print("IP:", input_path)
-    print(input_folder)
-    print(abs_output_path)
-    print(folder_name)
-    print("CP:", common_path)
-    print(root_path)
-    print(subdir)
-    print(final_path)
     return final_path
 
 def do_ocr(file_cand, output_path):
