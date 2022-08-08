@@ -9,15 +9,20 @@ from pdf2image import convert_from_path
 import pytesseract
 
 def main(input_folder: str):
+    """ Main function to walk thru files """
     for root, _, files in os.walk(input_folder):
         for file in files:
             file_cand = os.path.join(root, file)
             if os.path.isfile(file_cand) and "output" not in file_cand:
+                print(f"Processing {file_cand}")
                 output_path = get_output_path(file_cand, input_folder)
+                if os.path.isfile(output_path + ".pdf") and os.path.isfile(output_path + ".json"):
+                    print(f"Skipping {file_cand} as it exists already")
+                    continue
                 do_ocr(file_cand, output_path)
 
 def get_output_path(input_path: str, input_folder: str) -> str:
-    """ TODO: Always go down with root path till only one / is left"""
+    """ Gets outpath """
     while len(input_folder.split("/")) > 2: # TODO: make universal for every OS
         input_folder = os.path.dirname(input_folder)
     abs_output_path = os.path.abspath(input_path)
@@ -52,8 +57,6 @@ def do_ocr(file_cand, output_path):
     with open(output_path + ".pdf", 'w+b') as fhandle:
         fhandle.write(result_pdf)
 
-
 if __name__ == "__main__":
     input_folder = sys.argv[1]
     main(input_folder)
-
