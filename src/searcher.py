@@ -4,7 +4,7 @@ import os
 import sys
 
 def main(input_folder: str, input_keyword: str):
-    for root, _, files in os.walk(input_folder):
+    for root, _, files in os.walk(input_folder):    
         for file in files:
             file_cand = os.path.join(root, file)
             if os.path.isfile(file_cand) and file_cand.endswith(".json"):
@@ -15,6 +15,8 @@ def search(file_cand, input_keyword):
         data = json.load(fhandle)
     if input_keyword in data:
         print(file_cand)
+        loc = data.index(input_keyword)
+        print(data[loc:loc+5])
 
 if __name__ == "__main__":
     input_folder = sys.argv[1]
